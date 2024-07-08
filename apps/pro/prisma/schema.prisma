@@ -1,0 +1,66 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Association {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String    @unique
+}
+
+model Federation {
+  id                 String    @id @default(cuid())
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  affectationDomaine String?
+  structure          Structure @relation(fields: [structureId], references: [id])
+  structureId        String    @unique
+}
+
+model Agence {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  structure   Structure @relation(fields: [structureId], references: [id])
+  structureId String    @unique
+}
+
+model Utilisateur {
+  id         String      @id @default(cuid())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  structures Structure[]
+}
+
+model Affectation {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Structure {
+  id                 String       @id @default(cuid())
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  code               String?
+  affectationDomaine String?
+  federation         Federation?
+  association        Association?
+  agence             Agence?
+  libelle            String?
+  utilisateur        Utilisateur? @relation(fields: [utilisateurId], references: [id])
+  utilisateurId      String?
+}
+
+model EnumStructureTypeField {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

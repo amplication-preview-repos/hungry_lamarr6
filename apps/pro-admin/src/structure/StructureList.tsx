@@ -26,28 +26,28 @@ export const StructureList = (props: ListProps): React.ReactElement => {
         <TextField label="ID" source="id" />
         <DateField source="createdAt" label="Created At" />
         <DateField source="updatedAt" label="Updated At" />
-        <TextField label="code" source="code" />
-        <TextField label="affectationDomaine" source="affectationDomaine" />
+        <TextField label="Code" source="code" />
+        <TextField label="AffectationDomaine" source="affectationDomaine" />
         <ReferenceField
-          label="federation"
+          label="Federation"
           source="federation.id"
           reference="Federation"
         >
           <TextField source={FEDERATION_TITLE_FIELD} />
         </ReferenceField>
         <ReferenceField
-          label="association"
+          label="Association"
           source="association.id"
           reference="Association"
         >
           <TextField source={ASSOCIATION_TITLE_FIELD} />
         </ReferenceField>
-        <ReferenceField label="agence" source="agence.id" reference="Agence">
+        <ReferenceField label="Agence" source="agence.id" reference="Agence">
           <TextField source={AGENCE_TITLE_FIELD} />
         </ReferenceField>
-        <TextField label="libelle" source="libelle" />
+        <TextField label="Libelle" source="libelle" />
         <ReferenceField
-          label="utilisateur"
+          label="Utilisateur"
           source="utilisateur.id"
           reference="Utilisateur"
         >

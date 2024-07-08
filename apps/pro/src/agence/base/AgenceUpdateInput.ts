@@ -14,6 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { AssociationWhereUniqueInput } from "../../association/base/AssociationWhereUniqueInput";
 
 @InputType()
 class AgenceUpdateInput {
@@ -28,6 +29,18 @@ class AgenceUpdateInput {
     nullable: true,
   })
   structure?: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => AssociationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => AssociationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => AssociationWhereUniqueInput, {
+    nullable: true,
+  })
+  association?: AssociationWhereUniqueInput | null;
 }
 
 export { AgenceUpdateInput as AgenceUpdateInput };

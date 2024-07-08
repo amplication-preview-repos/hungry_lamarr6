@@ -12,8 +12,10 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
-import { ValidateNested } from "class-validator";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { FederationWhereUniqueInput } from "../../federation/base/FederationWhereUniqueInput";
+import { AgenceCreateNestedManyWithoutAssociationsInput } from "./AgenceCreateNestedManyWithoutAssociationsInput";
 
 @InputType()
 class AssociationCreateInput {
@@ -25,6 +27,30 @@ class AssociationCreateInput {
   @Type(() => StructureWhereUniqueInput)
   @Field(() => StructureWhereUniqueInput)
   structure!: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => FederationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => FederationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => FederationWhereUniqueInput, {
+    nullable: true,
+  })
+  federation?: FederationWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => AgenceCreateNestedManyWithoutAssociationsInput,
+  })
+  @ValidateNested()
+  @Type(() => AgenceCreateNestedManyWithoutAssociationsInput)
+  @IsOptional()
+  @Field(() => AgenceCreateNestedManyWithoutAssociationsInput, {
+    nullable: true,
+  })
+  agences?: AgenceCreateNestedManyWithoutAssociationsInput;
 }
 
 export { AssociationCreateInput as AssociationCreateInput };

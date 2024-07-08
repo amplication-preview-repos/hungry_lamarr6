@@ -16,30 +16,30 @@ export const StructureEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
-        <TextInput label="code" source="code" />
-        <TextInput label="affectationDomaine" source="affectationDomaine" />
+        <TextInput label="Code" source="code" />
+        <TextInput label="AffectationDomaine" source="affectationDomaine" />
         <ReferenceInput
           source="federation.id"
           reference="Federation"
-          label="federation"
+          label="Federation"
         >
           <SelectInput optionText={FederationTitle} />
         </ReferenceInput>
         <ReferenceInput
           source="association.id"
           reference="Association"
-          label="association"
+          label="Association"
         >
           <SelectInput optionText={AssociationTitle} />
         </ReferenceInput>
-        <ReferenceInput source="agence.id" reference="Agence" label="agence">
+        <ReferenceInput source="agence.id" reference="Agence" label="Agence">
           <SelectInput optionText={AgenceTitle} />
         </ReferenceInput>
-        <TextInput label="libelle" source="libelle" />
+        <TextInput label="Libelle" source="libelle" />
         <ReferenceInput
           source="utilisateur.id"
           reference="Utilisateur"
-          label="utilisateur"
+          label="Utilisateur"
         >
           <SelectInput optionText={UtilisateurTitle} />
         </ReferenceInput>

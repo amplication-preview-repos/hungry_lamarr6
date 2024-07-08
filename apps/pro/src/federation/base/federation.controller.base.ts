@@ -22,6 +22,9 @@ import { Federation } from "./Federation";
 import { FederationFindManyArgs } from "./FederationFindManyArgs";
 import { FederationWhereUniqueInput } from "./FederationWhereUniqueInput";
 import { FederationUpdateInput } from "./FederationUpdateInput";
+import { AssociationFindManyArgs } from "../../association/base/AssociationFindManyArgs";
+import { Association } from "../../association/base/Association";
+import { AssociationWhereUniqueInput } from "../../association/base/AssociationWhereUniqueInput";
 
 export class FederationControllerBase {
   constructor(protected readonly service: FederationService) {}
@@ -174,5 +177,91 @@ export class FederationControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/associations")
+  @ApiNestedQuery(AssociationFindManyArgs)
+  async findAssociations(
+    @common.Req() request: Request,
+    @common.Param() params: FederationWhereUniqueInput
+  ): Promise<Association[]> {
+    const query = plainToClass(AssociationFindManyArgs, request.query);
+    const results = await this.service.findAssociations(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+
+        structure: {
+          select: {
+            id: true,
+          },
+        },
+
+        federation: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/associations")
+  async connectAssociations(
+    @common.Param() params: FederationWhereUniqueInput,
+    @common.Body() body: AssociationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      associations: {
+        connect: body,
+      },
+    };
+    await this.service.updateFederation({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/associations")
+  async updateAssociations(
+    @common.Param() params: FederationWhereUniqueInput,
+    @common.Body() body: AssociationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      associations: {
+        set: body,
+      },
+    };
+    await this.service.updateFederation({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/associations")
+  async disconnectAssociations(
+    @common.Param() params: FederationWhereUniqueInput,
+    @common.Body() body: AssociationWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      associations: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateFederation({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

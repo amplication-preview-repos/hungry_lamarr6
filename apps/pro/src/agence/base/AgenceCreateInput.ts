@@ -12,8 +12,9 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
-import { ValidateNested } from "class-validator";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { AssociationWhereUniqueInput } from "../../association/base/AssociationWhereUniqueInput";
 
 @InputType()
 class AgenceCreateInput {
@@ -25,6 +26,18 @@ class AgenceCreateInput {
   @Type(() => StructureWhereUniqueInput)
   @Field(() => StructureWhereUniqueInput)
   structure!: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => AssociationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => AssociationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => AssociationWhereUniqueInput, {
+    nullable: true,
+  })
+  association?: AssociationWhereUniqueInput | null;
 }
 
 export { AgenceCreateInput as AgenceCreateInput };

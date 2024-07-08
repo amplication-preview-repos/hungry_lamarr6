@@ -15,6 +15,8 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
+import { FederationWhereUniqueInput } from "../../federation/base/FederationWhereUniqueInput";
+import { AgenceListRelationFilter } from "../../agence/base/AgenceListRelationFilter";
 
 @InputType()
 class AssociationWhereInput {
@@ -40,6 +42,30 @@ class AssociationWhereInput {
     nullable: true,
   })
   structure?: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => FederationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => FederationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => FederationWhereUniqueInput, {
+    nullable: true,
+  })
+  federation?: FederationWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => AgenceListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => AgenceListRelationFilter)
+  @IsOptional()
+  @Field(() => AgenceListRelationFilter, {
+    nullable: true,
+  })
+  agences?: AgenceListRelationFilter;
 }
 
 export { AssociationWhereInput as AssociationWhereInput };

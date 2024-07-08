@@ -11,9 +11,10 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsDate, ValidateNested } from "class-validator";
+import { IsString, IsDate, ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
 import { Structure } from "../../structure/base/Structure";
+import { Association } from "../../association/base/Association";
 
 @ObjectType()
 class Agence {
@@ -48,6 +49,15 @@ class Agence {
   @ValidateNested()
   @Type(() => Structure)
   structure?: Structure;
+
+  @ApiProperty({
+    required: false,
+    type: () => Association,
+  })
+  @ValidateNested()
+  @Type(() => Association)
+  @IsOptional()
+  association?: Association | null;
 }
 
 export { Agence as Agence };

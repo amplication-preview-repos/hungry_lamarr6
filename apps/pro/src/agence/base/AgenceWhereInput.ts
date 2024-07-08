@@ -15,6 +15,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
+import { AssociationWhereUniqueInput } from "../../association/base/AssociationWhereUniqueInput";
 
 @InputType()
 class AgenceWhereInput {
@@ -40,6 +41,18 @@ class AgenceWhereInput {
     nullable: true,
   })
   structure?: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => AssociationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => AssociationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => AssociationWhereUniqueInput, {
+    nullable: true,
+  })
+  association?: AssociationWhereUniqueInput;
 }
 
 export { AgenceWhereInput as AgenceWhereInput };

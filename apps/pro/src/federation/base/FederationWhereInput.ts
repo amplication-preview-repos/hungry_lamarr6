@@ -16,6 +16,7 @@ import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
+import { AssociationListRelationFilter } from "../../association/base/AssociationListRelationFilter";
 
 @InputType()
 class FederationWhereInput {
@@ -52,6 +53,18 @@ class FederationWhereInput {
     nullable: true,
   })
   structure?: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => AssociationListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => AssociationListRelationFilter)
+  @IsOptional()
+  @Field(() => AssociationListRelationFilter, {
+    nullable: true,
+  })
+  associations?: AssociationListRelationFilter;
 }
 
 export { FederationWhereInput as FederationWhereInput };

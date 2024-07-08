@@ -5,4 +5,5 @@ export type AssociationOrderByInput = {
   createdAt?: SortOrder;
   updatedAt?: SortOrder;
   structureId?: SortOrder;
+  federationId?: SortOrder;
 };

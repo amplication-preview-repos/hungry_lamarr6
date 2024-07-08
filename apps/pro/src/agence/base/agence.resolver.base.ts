@@ -21,6 +21,7 @@ import { CreateAgenceArgs } from "./CreateAgenceArgs";
 import { UpdateAgenceArgs } from "./UpdateAgenceArgs";
 import { DeleteAgenceArgs } from "./DeleteAgenceArgs";
 import { Structure } from "../../structure/base/Structure";
+import { Association } from "../../association/base/Association";
 import { AgenceService } from "../agence.service";
 @graphql.Resolver(() => Agence)
 export class AgenceResolverBase {
@@ -61,6 +62,12 @@ export class AgenceResolverBase {
         structure: {
           connect: args.data.structure,
         },
+
+        association: args.data.association
+          ? {
+              connect: args.data.association,
+            }
+          : undefined,
       },
     });
   }
@@ -78,6 +85,12 @@ export class AgenceResolverBase {
           structure: {
             connect: args.data.structure,
           },
+
+          association: args.data.association
+            ? {
+                connect: args.data.association,
+              }
+            : undefined,
         },
       });
     } catch (error) {
@@ -114,6 +127,21 @@ export class AgenceResolverBase {
     @graphql.Parent() parent: Agence
   ): Promise<Structure | null> {
     const result = await this.service.getStructure(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @graphql.ResolveField(() => Association, {
+    nullable: true,
+    name: "association",
+  })
+  async getAssociation(
+    @graphql.Parent() parent: Agence
+  ): Promise<Association | null> {
+    const result = await this.service.getAssociation(parent.id);
 
     if (!result) {
       return null;

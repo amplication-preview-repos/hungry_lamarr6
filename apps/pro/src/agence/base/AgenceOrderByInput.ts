@@ -62,6 +62,17 @@ class AgenceOrderByInput {
     nullable: true,
   })
   structureId?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  associationId?: SortOrder;
 }
 
 export { AgenceOrderByInput as AgenceOrderByInput };

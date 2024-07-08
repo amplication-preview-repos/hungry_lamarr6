@@ -14,6 +14,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { FederationWhereUniqueInput } from "../../federation/base/FederationWhereUniqueInput";
+import { AgenceUpdateManyWithoutAssociationsInput } from "./AgenceUpdateManyWithoutAssociationsInput";
 
 @InputType()
 class AssociationUpdateInput {
@@ -28,6 +30,30 @@ class AssociationUpdateInput {
     nullable: true,
   })
   structure?: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => FederationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => FederationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => FederationWhereUniqueInput, {
+    nullable: true,
+  })
+  federation?: FederationWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => AgenceUpdateManyWithoutAssociationsInput,
+  })
+  @ValidateNested()
+  @Type(() => AgenceUpdateManyWithoutAssociationsInput)
+  @IsOptional()
+  @Field(() => AgenceUpdateManyWithoutAssociationsInput, {
+    nullable: true,
+  })
+  agences?: AgenceUpdateManyWithoutAssociationsInput;
 }
 
 export { AssociationUpdateInput as AssociationUpdateInput };

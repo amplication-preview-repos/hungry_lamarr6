@@ -19,6 +19,7 @@ import {
 } from "class-validator";
 import { StructureWhereUniqueInput } from "../../structure/base/StructureWhereUniqueInput";
 import { Type } from "class-transformer";
+import { AssociationUpdateManyWithoutFederationsInput } from "./AssociationUpdateManyWithoutFederationsInput";
 
 @InputType()
 class FederationUpdateInput {
@@ -45,6 +46,18 @@ class FederationUpdateInput {
     nullable: true,
   })
   structure?: StructureWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => AssociationUpdateManyWithoutFederationsInput,
+  })
+  @ValidateNested()
+  @Type(() => AssociationUpdateManyWithoutFederationsInput)
+  @IsOptional()
+  @Field(() => AssociationUpdateManyWithoutFederationsInput, {
+    nullable: true,
+  })
+  associations?: AssociationUpdateManyWithoutFederationsInput;
 }
 
 export { FederationUpdateInput as FederationUpdateInput };

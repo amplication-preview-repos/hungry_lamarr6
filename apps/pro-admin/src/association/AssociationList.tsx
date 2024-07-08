@@ -9,6 +9,7 @@ import {
 } from "react-admin";
 import Pagination from "../Components/Pagination";
 import { STRUCTURE_TITLE_FIELD } from "../structure/StructureTitle";
+import { FEDERATION_TITLE_FIELD } from "../federation/FederationTitle";
 
 export const AssociationList = (props: ListProps): React.ReactElement => {
   return (
@@ -29,6 +30,13 @@ export const AssociationList = (props: ListProps): React.ReactElement => {
           reference="Structure"
         >
           <TextField source={STRUCTURE_TITLE_FIELD} />
+        </ReferenceField>
+        <ReferenceField
+          label="Federation"
+          source="federation.id"
+          reference="Federation"
+        >
+          <TextField source={FEDERATION_TITLE_FIELD} />
         </ReferenceField>
       </Datagrid>
     </List>

@@ -22,6 +22,9 @@ import { Association } from "./Association";
 import { AssociationFindManyArgs } from "./AssociationFindManyArgs";
 import { AssociationWhereUniqueInput } from "./AssociationWhereUniqueInput";
 import { AssociationUpdateInput } from "./AssociationUpdateInput";
+import { AgenceFindManyArgs } from "../../agence/base/AgenceFindManyArgs";
+import { Agence } from "../../agence/base/Agence";
+import { AgenceWhereUniqueInput } from "../../agence/base/AgenceWhereUniqueInput";
 
 export class AssociationControllerBase {
   constructor(protected readonly service: AssociationService) {}
@@ -37,6 +40,12 @@ export class AssociationControllerBase {
         structure: {
           connect: data.structure,
         },
+
+        federation: data.federation
+          ? {
+              connect: data.federation,
+            }
+          : undefined,
       },
       select: {
         id: true,
@@ -44,6 +53,12 @@ export class AssociationControllerBase {
         updatedAt: true,
 
         structure: {
+          select: {
+            id: true,
+          },
+        },
+
+        federation: {
           select: {
             id: true,
           },
@@ -69,6 +84,12 @@ export class AssociationControllerBase {
             id: true,
           },
         },
+
+        federation: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -87,6 +108,12 @@ export class AssociationControllerBase {
         updatedAt: true,
 
         structure: {
+          select: {
+            id: true,
+          },
+        },
+
+        federation: {
           select: {
             id: true,
           },
@@ -117,6 +144,12 @@ export class AssociationControllerBase {
           structure: {
             connect: data.structure,
           },
+
+          federation: data.federation
+            ? {
+                connect: data.federation,
+              }
+            : undefined,
         },
         select: {
           id: true,
@@ -124,6 +157,12 @@ export class AssociationControllerBase {
           updatedAt: true,
 
           structure: {
+            select: {
+              id: true,
+            },
+          },
+
+          federation: {
             select: {
               id: true,
             },
@@ -159,6 +198,12 @@ export class AssociationControllerBase {
               id: true,
             },
           },
+
+          federation: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -169,5 +214,91 @@ export class AssociationControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/agences")
+  @ApiNestedQuery(AgenceFindManyArgs)
+  async findAgences(
+    @common.Req() request: Request,
+    @common.Param() params: AssociationWhereUniqueInput
+  ): Promise<Agence[]> {
+    const query = plainToClass(AgenceFindManyArgs, request.query);
+    const results = await this.service.findAgences(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+
+        structure: {
+          select: {
+            id: true,
+          },
+        },
+
+        association: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/agences")
+  async connectAgences(
+    @common.Param() params: AssociationWhereUniqueInput,
+    @common.Body() body: AgenceWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      agences: {
+        connect: body,
+      },
+    };
+    await this.service.updateAssociation({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/agences")
+  async updateAgences(
+    @common.Param() params: AssociationWhereUniqueInput,
+    @common.Body() body: AgenceWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      agences: {
+        set: body,
+      },
+    };
+    await this.service.updateAssociation({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/agences")
+  async disconnectAgences(
+    @common.Param() params: AssociationWhereUniqueInput,
+    @common.Body() body: AgenceWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      agences: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateAssociation({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

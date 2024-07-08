@@ -20,6 +20,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { Structure } from "../../structure/base/Structure";
+import { Association } from "../../association/base/Association";
 
 @ObjectType()
 class Federation {
@@ -66,6 +67,15 @@ class Federation {
   @ValidateNested()
   @Type(() => Structure)
   structure?: Structure;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Association],
+  })
+  @ValidateNested()
+  @Type(() => Association)
+  @IsOptional()
+  associations?: Array<Association>;
 }
 
 export { Federation as Federation };

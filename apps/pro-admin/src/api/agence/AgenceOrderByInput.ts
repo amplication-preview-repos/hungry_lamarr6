@@ -5,4 +5,5 @@ export type AgenceOrderByInput = {
   createdAt?: SortOrder;
   updatedAt?: SortOrder;
   structureId?: SortOrder;
+  associationId?: SortOrder;
 };

@@ -20,6 +20,8 @@ import { FederationFindUniqueArgs } from "./FederationFindUniqueArgs";
 import { CreateFederationArgs } from "./CreateFederationArgs";
 import { UpdateFederationArgs } from "./UpdateFederationArgs";
 import { DeleteFederationArgs } from "./DeleteFederationArgs";
+import { AssociationFindManyArgs } from "../../association/base/AssociationFindManyArgs";
+import { Association } from "../../association/base/Association";
 import { Structure } from "../../structure/base/Structure";
 import { FederationService } from "../federation.service";
 @graphql.Resolver(() => Federation)
@@ -108,6 +110,20 @@ export class FederationResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Association], { name: "associations" })
+  async findAssociations(
+    @graphql.Parent() parent: Federation,
+    @graphql.Args() args: AssociationFindManyArgs
+  ): Promise<Association[]> {
+    const results = await this.service.findAssociations(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @graphql.ResolveField(() => Structure, {

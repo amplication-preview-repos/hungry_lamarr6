@@ -35,6 +35,12 @@ export class AgenceControllerBase {
         structure: {
           connect: data.structure,
         },
+
+        association: data.association
+          ? {
+              connect: data.association,
+            }
+          : undefined,
       },
       select: {
         id: true,
@@ -42,6 +48,12 @@ export class AgenceControllerBase {
         updatedAt: true,
 
         structure: {
+          select: {
+            id: true,
+          },
+        },
+
+        association: {
           select: {
             id: true,
           },
@@ -67,6 +79,12 @@ export class AgenceControllerBase {
             id: true,
           },
         },
+
+        association: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -85,6 +103,12 @@ export class AgenceControllerBase {
         updatedAt: true,
 
         structure: {
+          select: {
+            id: true,
+          },
+        },
+
+        association: {
           select: {
             id: true,
           },
@@ -115,6 +139,12 @@ export class AgenceControllerBase {
           structure: {
             connect: data.structure,
           },
+
+          association: data.association
+            ? {
+                connect: data.association,
+              }
+            : undefined,
         },
         select: {
           id: true,
@@ -122,6 +152,12 @@ export class AgenceControllerBase {
           updatedAt: true,
 
           structure: {
+            select: {
+              id: true,
+            },
+          },
+
+          association: {
             select: {
               id: true,
             },
@@ -153,6 +189,12 @@ export class AgenceControllerBase {
           updatedAt: true,
 
           structure: {
+            select: {
+              id: true,
+            },
+          },
+
+          association: {
             select: {
               id: true,
             },

@@ -10,10 +10,13 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   Association as PrismaAssociation,
+  Agence as PrismaAgence,
   Structure as PrismaStructure,
+  Federation as PrismaFederation,
 } from "@prisma/client";
 
 export class AssociationServiceBase {
@@ -51,11 +54,30 @@ export class AssociationServiceBase {
     return this.prisma.association.delete(args);
   }
 
+  async findAgences(
+    parentId: string,
+    args: Prisma.AgenceFindManyArgs
+  ): Promise<PrismaAgence[]> {
+    return this.prisma.association
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .agences(args);
+  }
+
   async getStructure(parentId: string): Promise<PrismaStructure | null> {
     return this.prisma.association
       .findUnique({
         where: { id: parentId },
       })
       .structure();
+  }
+
+  async getFederation(parentId: string): Promise<PrismaFederation | null> {
+    return this.prisma.association
+      .findUnique({
+        where: { id: parentId },
+      })
+      .federation();
   }
 }

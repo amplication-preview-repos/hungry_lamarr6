@@ -20,7 +20,10 @@ import { AssociationFindUniqueArgs } from "./AssociationFindUniqueArgs";
 import { CreateAssociationArgs } from "./CreateAssociationArgs";
 import { UpdateAssociationArgs } from "./UpdateAssociationArgs";
 import { DeleteAssociationArgs } from "./DeleteAssociationArgs";
+import { AgenceFindManyArgs } from "../../agence/base/AgenceFindManyArgs";
+import { Agence } from "../../agence/base/Agence";
 import { Structure } from "../../structure/base/Structure";
+import { Federation } from "../../federation/base/Federation";
 import { AssociationService } from "../association.service";
 @graphql.Resolver(() => Association)
 export class AssociationResolverBase {
@@ -65,6 +68,12 @@ export class AssociationResolverBase {
         structure: {
           connect: args.data.structure,
         },
+
+        federation: args.data.federation
+          ? {
+              connect: args.data.federation,
+            }
+          : undefined,
       },
     });
   }
@@ -82,6 +91,12 @@ export class AssociationResolverBase {
           structure: {
             connect: args.data.structure,
           },
+
+          federation: args.data.federation
+            ? {
+                connect: args.data.federation,
+              }
+            : undefined,
         },
       });
     } catch (error) {
@@ -110,6 +125,20 @@ export class AssociationResolverBase {
     }
   }
 
+  @graphql.ResolveField(() => [Agence], { name: "agences" })
+  async findAgences(
+    @graphql.Parent() parent: Association,
+    @graphql.Args() args: AgenceFindManyArgs
+  ): Promise<Agence[]> {
+    const results = await this.service.findAgences(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
   @graphql.ResolveField(() => Structure, {
     nullable: true,
     name: "structure",
@@ -118,6 +147,21 @@ export class AssociationResolverBase {
     @graphql.Parent() parent: Association
   ): Promise<Structure | null> {
     const result = await this.service.getStructure(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @graphql.ResolveField(() => Federation, {
+    nullable: true,
+    name: "federation",
+  })
+  async getFederation(
+    @graphql.Parent() parent: Association
+  ): Promise<Federation | null> {
+    const result = await this.service.getFederation(parent.id);
 
     if (!result) {
       return null;

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { AssociationModule } from "./association/association.module";
 import { FederationModule } from "./federation/federation.module";
+import { AssociationModule } from "./association/association.module";
 import { AgenceModule } from "./agence/agence.module";
 import { UtilisateurModule } from "./utilisateur/utilisateur.module";
 import { AffectationModule } from "./affectation/affectation.module";
@@ -18,8 +18,8 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 @Module({
   controllers: [],
   imports: [
-    AssociationModule,
     FederationModule,
+    AssociationModule,
     AgenceModule,
     UtilisateurModule,
     AffectationModule,

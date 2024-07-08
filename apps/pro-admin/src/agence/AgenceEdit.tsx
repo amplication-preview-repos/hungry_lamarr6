@@ -7,6 +7,7 @@ import {
   SelectInput,
 } from "react-admin";
 import { StructureTitle } from "../structure/StructureTitle";
+import { AssociationTitle } from "../association/AssociationTitle";
 
 export const AgenceEdit = (props: EditProps): React.ReactElement => {
   return (
@@ -15,9 +16,16 @@ export const AgenceEdit = (props: EditProps): React.ReactElement => {
         <ReferenceInput
           source="structure.id"
           reference="Structure"
-          label="structure"
+          label="Structure"
         >
           <SelectInput optionText={StructureTitle} />
+        </ReferenceInput>
+        <ReferenceInput
+          source="association.id"
+          reference="Association"
+          label="Association"
+        >
+          <SelectInput optionText={AssociationTitle} />
         </ReferenceInput>
       </SimpleForm>
     </Edit>

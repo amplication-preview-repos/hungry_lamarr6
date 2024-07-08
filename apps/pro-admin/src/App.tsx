@@ -5,14 +5,14 @@ import { theme } from "./theme/theme";
 import Login from "./Login";
 import "./App.scss";
 import Dashboard from "./pages/Dashboard";
-import { AssociationList } from "./association/AssociationList";
-import { AssociationCreate } from "./association/AssociationCreate";
-import { AssociationEdit } from "./association/AssociationEdit";
-import { AssociationShow } from "./association/AssociationShow";
 import { FederationList } from "./federation/FederationList";
 import { FederationCreate } from "./federation/FederationCreate";
 import { FederationEdit } from "./federation/FederationEdit";
 import { FederationShow } from "./federation/FederationShow";
+import { AssociationList } from "./association/AssociationList";
+import { AssociationCreate } from "./association/AssociationCreate";
+import { AssociationEdit } from "./association/AssociationEdit";
+import { AssociationShow } from "./association/AssociationShow";
 import { AgenceList } from "./agence/AgenceList";
 import { AgenceCreate } from "./agence/AgenceCreate";
 import { AgenceEdit } from "./agence/AgenceEdit";
@@ -60,18 +60,18 @@ const App = (): React.ReactElement => {
         loginPage={Login}
       >
         <Resource
-          name="Association"
-          list={AssociationList}
-          edit={AssociationEdit}
-          create={AssociationCreate}
-          show={AssociationShow}
-        />
-        <Resource
           name="Federation"
           list={FederationList}
           edit={FederationEdit}
           create={FederationCreate}
           show={FederationShow}
+        />
+        <Resource
+          name="Association"
+          list={AssociationList}
+          edit={AssociationEdit}
+          create={AssociationCreate}
+          show={AssociationShow}
         />
         <Resource
           name="Agence"
